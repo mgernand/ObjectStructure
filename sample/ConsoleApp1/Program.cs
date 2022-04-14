@@ -1,5 +1,6 @@
 ﻿namespace ConsoleApp1
 {
+	using System;
 	using ObjectStructure;
 
 	internal static class Program
