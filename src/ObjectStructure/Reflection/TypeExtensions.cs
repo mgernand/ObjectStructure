@@ -15,15 +15,15 @@
 		internal static bool IsSimpleType(this Type type)
 		{
 			return
-				type.IsPrimitive(includeEnums: true) ||
-				type.IsValueType;
+				type.IsPrimitive(true) ||
+				type.IsValueType();
 		}
 
 		internal static bool IsEnumerableType(this Type type)
 		{
 			return (type != typeof(string))
-				&& !type.IsValueType
-				&& !type.IsPrimitive
+				&& !type.IsValueType()
+				&& !type.IsPrimitive()
 				&& type.IsEnumerable();
 		}
 
