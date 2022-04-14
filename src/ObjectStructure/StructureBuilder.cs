@@ -3,6 +3,7 @@
 	using Fluxera.Guards;
 	using JetBrains.Annotations;
 
+	/// <inheritdoc />
 	[PublicAPI]
 	public sealed class StructureBuilder : IStructureBuilder
 	{
@@ -10,6 +11,12 @@
 		private readonly IStructureIndicesFactory structureIndicesFactory;
 		private readonly IStructureTypeFactory structureTypeFactory;
 
+		/// <summary>
+		///     Creates a new instance of the  <see cref="StructureBuilder" /> type.
+		/// </summary>
+		/// <param name="structureTypeFactory"></param>
+		/// <param name="schemaFactory"></param>
+		/// <param name="structureIndicesFactory"></param>
 		public StructureBuilder(
 			IStructureTypeFactory structureTypeFactory = null,
 			ISchemaFactory schemaFactory = null,
@@ -28,7 +35,7 @@
 			StructureType structureType = this.structureTypeFactory.CreateType<T>();
 			StructureSchema structureSchema = this.schemaFactory.CreateSchema(structureType);
 
-			StructureIndex[] structureIndices = this.CreateIndices(structureSchema, item);
+			StructureIndices structureIndices = this.structureIndicesFactory.CreateIndices(structureSchema, item);
 			return new Structure(structureSchema, structureIndices);
 		}
 
@@ -39,11 +46,6 @@
 			StructureSchema structureSchema = this.schemaFactory.CreateSchema(structureType);
 
 			return new Structure(structureSchema);
-		}
-
-		private StructureIndex[] CreateIndices<T>(StructureSchema structureSchema, T item)
-		{
-			return this.structureIndicesFactory.CreateIndices(structureSchema, item);
 		}
 	}
 }

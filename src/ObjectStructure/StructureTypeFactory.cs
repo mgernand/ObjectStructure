@@ -5,6 +5,7 @@
 	using Fluxera.Guards;
 	using JetBrains.Annotations;
 
+	/// <inheritdoc />
 	[PublicAPI]
 	public sealed class StructureTypeFactory : IStructureTypeFactory
 	{
@@ -12,6 +13,10 @@
 
 		private IStructureTypeReflector reflector;
 
+		/// <summary>
+		///     Creates a new instance of the <see cref="StructureTypeFactory" /> type.
+		/// </summary>
+		/// <param name="reflector"></param>
 		public StructureTypeFactory(IStructureTypeReflector reflector = null)
 		{
 			this.reflector = reflector ?? new StructureTypeReflector();

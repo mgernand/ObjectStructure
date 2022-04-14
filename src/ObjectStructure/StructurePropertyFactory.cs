@@ -6,6 +6,7 @@
 	using JetBrains.Annotations;
 	using ObjectStructure.Reflection;
 
+	/// <inheritdoc />
 	[PublicAPI]
 	public sealed class StructurePropertyFactory : IStructurePropertyFactory
 	{

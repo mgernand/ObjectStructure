@@ -8,16 +8,33 @@
 	{
 		private readonly StructureProperty[] stack;
 
+		/// <summary>
+		///     Creates a new instance of the <see cref="StructurePropertyCallStack" /> type.
+		/// </summary>
+		/// <param name="stack"></param>
 		private StructurePropertyCallStack(StructureProperty[] stack)
 		{
 			this.stack = stack;
 		}
 
-		internal StructureProperty this[int index] => this.stack[index];
+		/// <summary>
+		///     Gets the property for the given index.
+		/// </summary>
+		/// <param name="index"></param>
+		/// <returns></returns>
+		public StructureProperty this[int index] => this.stack[index];
 
-		internal int Length => this.stack.Length;
+		/// <summary>
+		///     Gets the length of the stack.
+		/// </summary>
+		public int Length => this.stack.Length;
 
-		internal static StructurePropertyCallStack Create(StructureProperty property)
+		/// <summary>
+		///     Creates the stack for the given property.
+		/// </summary>
+		/// <param name="property"></param>
+		/// <returns></returns>
+		public static StructurePropertyCallStack Create(StructureProperty property)
 		{
 			return new StructurePropertyCallStack(BuildCallStack(property).Reverse().ToArray());
 		}

@@ -8,8 +8,8 @@
 
 	internal static class DynamicPropertyFactory
 	{
-		private static readonly Type objectType = typeof(object);
-		private static readonly Type ilGetterType = typeof(Func<object, object>);
+		private static readonly Type ObjectType = typeof(object);
+		private static readonly Type GetterType = typeof(Func<object, object>);
 
 		public static DynamicGetter GetterFor(PropertyInfo propertyInfo)
 		{
@@ -25,11 +25,11 @@
 
 		private static Func<object, object> CreateLambdaGetter(Type type, PropertyInfo property)
 		{
-			ParameterExpression objExpr = Expression.Parameter(objectType, "x");
+			ParameterExpression objExpr = Expression.Parameter(ObjectType, "x");
 			UnaryExpression castObjExpr = Expression.Convert(objExpr, type);
 
 			MemberExpression p = Expression.Property(castObjExpr, property);
-			UnaryExpression castProp = Expression.Convert(p, objectType);
+			UnaryExpression castProp = Expression.Convert(p, ObjectType);
 
 			Expression<Func<object, object>> lambda = Expression.Lambda<Func<object, object>>(castProp, objExpr);
 
@@ -49,7 +49,7 @@
 
 			LocalBuilder x = generator.DeclareLocal(propertyInfo.DeclaringType); //Arg
 			LocalBuilder y = generator.DeclareLocal(propertyInfo.PropertyType); //Prop val
-			LocalBuilder z = generator.DeclareLocal(objectType); //Prop val as obj
+			LocalBuilder z = generator.DeclareLocal(ObjectType); //Prop val as obj
 
 			generator.Emit(OpCodes.Ldarg_0);
 			generator.Emit(OpCodes.Castclass, propertyInfo.DeclaringType);
@@ -70,16 +70,16 @@
 
 			generator.Emit(OpCodes.Ret);
 
-			return (Func<object, object>)getter.CreateDelegate(ilGetterType);
+			return (Func<object, object>)getter.CreateDelegate(GetterType);
 		}
 
 		private static DynamicMethod CreateDynamicGetMethod(MemberInfo memberInfo)
 		{
 			Type declaringType = memberInfo.DeclaringType;
 
-			Type[] args = { objectType };
+			Type[] args = { ObjectType };
 			string name = $"_{declaringType.Name}_Get{memberInfo.Name}_";
-			Type returnType = objectType;
+			Type returnType = ObjectType;
 
 			return !declaringType.IsInterface
 				? new DynamicMethod(name, returnType, args, declaringType, true)

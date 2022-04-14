@@ -6,10 +6,15 @@
 	using Fluxera.Guards;
 	using JetBrains.Annotations;
 
+	/// <inheritdoc />
 	[PublicAPI]
 	public sealed class SchemaFactory : ISchemaFactory
 	{
 		private static IDictionary<Type, StructureSchema> schemaCache = new Dictionary<Type, StructureSchema>();
+
+		private static readonly string MissingMembersMessage =
+			"The item of type '{0}' has no members that can be indexed. " +
+			"There's no point in treating items that has nothing to index.";
 
 		/// <inheritdoc />
 		public StructureSchema CreateSchema(StructureType structureType)
@@ -21,9 +26,8 @@
 				IndexAccessor[] indexAccessors = this.GetIndexAccessors(structureType);
 				if((indexAccessors == null) || (indexAccessors.Length < 1))
 				{
-					throw new InvalidOperationException("TODO");
+					throw new InvalidOperationException(string.Format(MissingMembersMessage, structureType.Name));
 				}
-				//throw new StructurizerException(string.Format(StructurizerExceptionMessages.AutoSchemaBuilder_MissingIndexableMembers, structureType.Name));
 
 				structureSchema = new StructureSchema(structureType, indexAccessors);
 				schemaCache.Add(structureType.Type, structureSchema);

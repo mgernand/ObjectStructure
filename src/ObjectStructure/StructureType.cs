@@ -5,6 +5,9 @@
 	using Fluxera.Guards;
 	using JetBrains.Annotations;
 
+	/// <summary>
+	///     Contains the info of a <see cref="Type" />.
+	/// </summary>
 	[PublicAPI]
 	public sealed class StructureType
 	{

@@ -8,13 +8,18 @@
 	using JetBrains.Annotations;
 	using ObjectStructure.Reflection;
 
+	/// <inheritdoc />
 	[PublicAPI]
 	public sealed class StructureTypeReflector : IStructureTypeReflector
 	{
-		public const BindingFlags PropertyBindingFlags = BindingFlags.Public | BindingFlags.Instance;
+		private const BindingFlags PropertyBindingFlags = BindingFlags.Public | BindingFlags.Instance;
 
 		private readonly IStructurePropertyFactory propertyFactory;
 
+		/// <summary>
+		///     Creates a new instance of the <see cref="StructureTypeReflector" /> type.
+		/// </summary>
+		/// <param name="propertyFactory"></param>
 		public StructureTypeReflector(IStructurePropertyFactory propertyFactory = null)
 		{
 			this.propertyFactory = propertyFactory ?? new StructurePropertyFactory();

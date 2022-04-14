@@ -4,11 +4,12 @@
 	using System.Linq;
 	using JetBrains.Annotations;
 
+	/// <inheritdoc />
 	[PublicAPI]
 	public sealed class StructureIndicesFactory : IStructureIndicesFactory
 	{
 		/// <inheritdoc />
-		public StructureIndex[] CreateIndices<T>(StructureSchema structureSchema, T item)
+		public StructureIndices CreateIndices<T>(StructureSchema structureSchema, T item)
 		{
 			IList<StructureIndex> result = new List<StructureIndex>();
 
@@ -22,7 +23,7 @@
 				}
 			}
 
-			return result.ToArray();
+			return new StructureIndices(result.ToArray());
 		}
 	}
 }
