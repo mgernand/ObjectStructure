@@ -1,5 +1,6 @@
 ﻿namespace ObjectStructure
 {
+	using System;
 	using JetBrains.Annotations;
 
 	/// <summary>
@@ -24,5 +25,13 @@
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
 		Structure CreateStructure<T>();
+
+		/// <summary>
+		///     Creates a <see cref="Structure" /> instance for the given type. The structure contains
+		///     the <see cref="StructureSchema" />.
+		/// </summary>
+		/// <param name="type"></param>
+		/// <returns></returns>
+		Structure CreateStructure(Type type);
 	}
 }

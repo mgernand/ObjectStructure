@@ -8,8 +8,12 @@
 	using Fluxera.Utilities.Extensions;
 	using JetBrains.Annotations;
 
+	/// <summary>
+	///     A class that provides all index values for a <see cref="StructureProperty" /> which can be
+	///     more than one if the property nes to use call stack to get every value along the path.
+	/// </summary>
 	[PublicAPI]
-	public sealed class IndexAccessor
+	internal sealed class IndexAccessor
 	{
 		private readonly StructurePropertyCallStack callStack;
 		private readonly StructureProperty property;
@@ -36,7 +40,7 @@
 
 		public bool IsElement => this.property.IsElement;
 
-		internal StructureIndexValue[] GetValues<T>(T item)
+		public StructureIndexValue[] GetValues<T>(T item)
 		{
 			if(this.property.IsRootProperty)
 			{
@@ -64,11 +68,6 @@
 			int maxIndex = this.callStack.Length - 1;
 			for(int index = startIndex; index < this.callStack.Length; index++)
 			{
-				if(currentNode == null)
-				{
-					return null;
-				}
-
 				StructureProperty currentProperty = this.callStack[index];
 
 				IEnumerable enumerableNode = currentNode as IEnumerable;
@@ -171,11 +170,14 @@
 
 			values.Add(new StructureIndexValue($"{startPath}{property.Name}", elements));
 
-			int i = 0;
-			foreach(object element in elements)
+			if(elements != null)
 			{
-				values.Add(new StructureIndexValue($"{startPath}{property.Name}[{i}]", element));
-				i += 1;
+				int i = 0;
+				foreach(object element in elements)
+				{
+					values.Add(new StructureIndexValue($"{startPath}{property.Name}[{i}]", element));
+					i += 1;
+				}
 			}
 
 			return values;

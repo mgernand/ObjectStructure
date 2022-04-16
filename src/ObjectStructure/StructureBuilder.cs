@@ -1,5 +1,6 @@
 ﻿namespace ObjectStructure
 {
+	using System;
 	using Fluxera.Guards;
 	using JetBrains.Annotations;
 
@@ -32,7 +33,13 @@
 		{
 			Guard.Against.Null(item, nameof(item));
 
-			StructureType structureType = this.structureTypeFactory.CreateType<T>();
+			Type type = typeof(T);
+			if((type == typeof(Type)) || type.IsGenericType || type.IsGenericTypeDefinition)
+			{
+				return null;
+			}
+
+			StructureType structureType = this.structureTypeFactory.CreateType(item.GetType());
 			StructureSchema structureSchema = this.schemaFactory.CreateSchema(structureType);
 
 			StructureIndices structureIndices = this.structureIndicesFactory.CreateIndices(structureSchema, item);
@@ -42,7 +49,18 @@
 		/// <inheritdoc />
 		public Structure CreateStructure<T>()
 		{
-			StructureType structureType = this.structureTypeFactory.CreateType<T>();
+			return this.CreateStructure(typeof(T));
+		}
+
+		/// <inheritdoc />
+		public Structure CreateStructure(Type type)
+		{
+			if((type == typeof(Type)) || type.IsGenericType || type.IsGenericTypeDefinition)
+			{
+				return null;
+			}
+
+			StructureType structureType = this.structureTypeFactory.CreateType(type);
 			StructureSchema structureSchema = this.schemaFactory.CreateSchema(structureType);
 
 			return new Structure(structureSchema);

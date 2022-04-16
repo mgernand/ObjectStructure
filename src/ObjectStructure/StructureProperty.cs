@@ -94,7 +94,7 @@
 		/// <returns></returns>
 		public object GetValue(object obj)
 		{
-			return this.getter.Invoke(obj);
+			return obj != null ? this.getter.Invoke(obj) : null;
 		}
 
 		/// <inheritdoc />
