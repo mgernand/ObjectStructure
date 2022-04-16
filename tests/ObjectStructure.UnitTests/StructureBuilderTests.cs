@@ -1,6 +1,6 @@
 ﻿namespace ObjectStructure.UnitTests
 {
-	using System.Collections.Generic;
+	using System;
 	using FluentAssertions;
 	using NUnit.Framework;
 	using ObjectStructure.UnitTests.Model;
@@ -8,66 +8,132 @@
 	[TestFixture]
 	public class StructureBuilderTests
 	{
-		[Test]
-		public void ShouldProvideValueForComplexProperty()
+		private class GenericModel<T>
 		{
-			IStructureBuilder builder = new StructureBuilder();
-			ComplexModel instance = new ComplexModel
-			{
-				ComplexProperty = new ComplexType
-				{
-					StringProperty = "Hello"
-				}
-			};
-			Structure structure = builder.CreateStructure(instance);
+			public T Property { get; set; }
+		}
 
-			structure.Should().NotBeNull();
-			structure.Name.Should().Be(nameof(ComplexModel));
-			structure.Indices.Should().HaveCount(2);
+		private class ModelClass
+		{
+			public string String { get; set; }
+		}
 
-			structure.Indices[0].Type.Should().Be(typeof(ComplexType));
-			structure.Indices[0].Name.Should().Be("ComplexProperty");
-			structure.Indices[0].Path.Should().Be("ComplexProperty");
-			structure.Indices[0].Value.Should().Be(instance.ComplexProperty);
+		private struct ModelStruct
+		{
+			public string String { get; set; }
+		}
 
-			structure.Indices[1].Type.Should().Be(typeof(string));
-			structure.Indices[1].Name.Should().Be("StringProperty");
-			structure.Indices[1].Path.Should().Be("ComplexProperty.StringProperty");
-			structure.Indices[1].Value.Should().Be("Hello");
+		private class SingleSimplePropertyModel : SinglePropertyModel<string>
+		{
 		}
 
 		[Test]
-		public void ShouldProvideValueForSimpleEnumerableProperty()
+		public void ShouldCreateSchemaAndIndicesForSingleSimpleProperty()
 		{
 			IStructureBuilder builder = new StructureBuilder();
-			SimpleEnumerableModel instance = new SimpleEnumerableModel
-			{
-				ListProperty = new List<string> { "Hello", "World" }
-			};
-			Structure structure = builder.CreateStructure(instance);
+			Structure structure = builder.CreateStructure(new SingleSimplePropertyModel());
 
 			structure.Should().NotBeNull();
-			structure.Name.Should().Be(nameof(SimpleEnumerableModel));
-			structure.Indices.Should().HaveCount(3);
-		}
-
-		[Test]
-		public void ShouldProvideValueForSimpleProperty()
-		{
-			IStructureBuilder builder = new StructureBuilder();
-			Structure structure = builder.CreateStructure(new SimpleModel
-			{
-				StringProperty = "Hello"
-			});
-
-			structure.Should().NotBeNull();
-			structure.Name.Should().Be(nameof(SimpleModel));
+			structure.Name.Should().Be(nameof(SingleSimplePropertyModel));
+			structure.Schema.Should().NotBeNull();
+			structure.Schema.Name.Should().Be(nameof(SingleSimplePropertyModel));
+			structure.Schema.IndexAccessors.Should().NotBeNullOrEmpty();
+			structure.Schema.IndexAccessors.Should().HaveCount(1);
+			structure.Indices.Should().NotBeNullOrEmpty();
 			structure.Indices.Should().HaveCount(1);
+		}
 
-			structure.Indices[0].Type.Should().Be(typeof(string));
-			structure.Indices[0].Name.Should().Be("StringProperty");
-			structure.Indices[0].Path.Should().Be("StringProperty");
-			structure.Indices[0].Value.Should().Be("Hello");
+		[Test]
+		public void ShouldCreateSchemaForSingleSimpleProperty()
+		{
+			IStructureBuilder builder = new StructureBuilder();
+			Structure structure = builder.CreateStructure<SingleSimplePropertyModel>();
+
+			structure.Should().NotBeNull();
+			structure.Name.Should().Be(nameof(SingleSimplePropertyModel));
+			structure.Schema.Should().NotBeNull();
+			structure.Schema.Name.Should().Be(nameof(SingleSimplePropertyModel));
+			structure.Schema.IndexAccessors.Should().NotBeNullOrEmpty();
+			structure.Schema.IndexAccessors.Should().HaveCount(1);
+			structure.Indices.Should().NotBeNull();
+			structure.Indices.Should().BeEmpty();
+		}
+
+		[Test]
+		public void ShouldCreateStructureForClassType()
+		{
+			IStructureBuilder builder = new StructureBuilder();
+			Structure structure = builder.CreateStructure<ModelClass>();
+
+			structure.Should().NotBeNull();
+			structure.Name.Should().Be(nameof(ModelClass));
+			structure.Schema.Should().NotBeNull();
+			structure.Indices.Should().NotBeNull();
+			structure.Indices.Should().BeEmpty();
+		}
+
+		[Test]
+		public void ShouldCreateStructureForInstance()
+		{
+			IStructureBuilder builder = new StructureBuilder();
+			Structure structure = builder.CreateStructure(new ModelClass());
+
+			structure.Should().NotBeNull();
+			structure.Name.Should().Be(nameof(ModelClass));
+			structure.Schema.Should().NotBeNull();
+			structure.Indices.Should().NotBeNullOrEmpty();
+		}
+
+		[Test]
+		public void ShouldCreateStructureForStructType()
+		{
+			IStructureBuilder builder = new StructureBuilder();
+			Structure structure = builder.CreateStructure<ModelStruct>();
+
+			structure.Should().NotBeNull();
+			structure.Name.Should().Be(nameof(ModelStruct));
+			structure.Schema.Should().NotBeNull();
+			structure.Indices.Should().NotBeNull();
+			structure.Indices.Should().BeEmpty();
+		}
+
+		[Test]
+		public void ShouldCreateStructureForValue()
+		{
+			IStructureBuilder builder = new StructureBuilder();
+			Structure structure = builder.CreateStructure(new ModelStruct());
+
+			structure.Should().NotBeNull();
+			structure.Name.Should().Be(nameof(ModelStruct));
+			structure.Schema.Should().NotBeNull();
+			structure.Indices.Should().NotBeNullOrEmpty();
+		}
+
+		[Test]
+		public void ShouldNotCreateSchemaForGenericType()
+		{
+			IStructureBuilder builder = new StructureBuilder();
+			Structure structure = builder.CreateStructure(typeof(GenericModel<string>));
+
+			structure.Should().BeNull();
+		}
+
+		[Test]
+		public void ShouldNotCreateSchemaForGenericTypeDefinition()
+		{
+			IStructureBuilder builder = new StructureBuilder();
+			Structure structure = builder.CreateStructure(typeof(GenericModel<>));
+
+			structure.Should().BeNull();
+		}
+
+		[Test]
+		public void ShouldNotCreateStructureForTypeType()
+		{
+			IStructureBuilder builder = new StructureBuilder();
+			Structure structure = builder.CreateStructure<Type>();
+
+			structure.Should().BeNull();
 		}
 	}
 }
