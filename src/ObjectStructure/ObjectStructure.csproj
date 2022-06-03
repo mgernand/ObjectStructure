@@ -15,9 +15,9 @@
 	<PropertyGroup>
 		<IncludeSymbols>false</IncludeSymbols>
 		<Copyright>Copyright © 2022 Matthias Gernand. All rights reserved.</Copyright>
-		<Version>1.0.0</Version>
-		<AssemblyVersion>1.0.0</AssemblyVersion>
-		<FileVersion>1.0.0</FileVersion>
+		<Version>1.0.1</Version>
+		<AssemblyVersion>1.0.1</AssemblyVersion>
+		<FileVersion>1.0.1</FileVersion>
 		<Authors>Matthias Gernand</Authors>
 		<Description>A libary that creates a flat structure for types and a flat key-value structure for instances.</Description>
 		<NeutralLanguage>en</NeutralLanguage>
