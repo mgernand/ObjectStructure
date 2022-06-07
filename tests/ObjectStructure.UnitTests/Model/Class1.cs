@@ -1,4 +1,4 @@
-﻿namespace ObjectStructure.UnitTests.Schema
+﻿namespace ObjectStructure.UnitTests.Model
 {
 	public class Class1
 	{
