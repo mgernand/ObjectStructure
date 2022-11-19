@@ -2,16 +2,16 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Fluxera.Entity" Version="6.1.10" />
-    <PackageReference Include="Fluxera.Enumeration" Version="6.1.5" />
-    <PackageReference Include="Fluxera.Spatial" Version="6.1.4" />
-    <PackageReference Include="Fluxera.ValueObject" Version="6.1.8" />
+    <PackageReference Include="Fluxera.Entity" Version="7.0.4" />
+    <PackageReference Include="Fluxera.Enumeration" Version="7.0.3" />
+    <PackageReference Include="Fluxera.Spatial" Version="7.0.3" />
+    <PackageReference Include="Fluxera.ValueObject" Version="7.0.2" />
   </ItemGroup>
 
   <ItemGroup>
