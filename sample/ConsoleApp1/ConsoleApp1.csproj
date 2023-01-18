@@ -8,10 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Fluxera.Entity" Version="7.0.4" />
-    <PackageReference Include="Fluxera.Enumeration" Version="7.0.3" />
-    <PackageReference Include="Fluxera.Spatial" Version="7.0.3" />
-    <PackageReference Include="Fluxera.ValueObject" Version="7.0.2" />
+    <PackageReference Include="Fluxera.Entity" Version="7.1.0" />
+    <PackageReference Include="Fluxera.Enumeration" Version="7.1.0" />
+    <PackageReference Include="Fluxera.Spatial" Version="7.1.0" />
+    <PackageReference Include="Fluxera.ValueObject" Version="7.1.0" />
   </ItemGroup>
 
   <ItemGroup>
