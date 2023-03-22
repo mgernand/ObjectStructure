@@ -8,9 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Fluxera.Enumeration" Version="7.1.0" />
-    <PackageReference Include="Fluxera.Spatial" Version="7.1.0" />
-    <PackageReference Include="Fluxera.ValueObject" Version="7.1.0" />
+    <PackageReference Include="Fluxera.Enumeration" Version="7.1.2" />
+    <PackageReference Include="Fluxera.Spatial" Version="7.1.2" />
+    <PackageReference Include="Fluxera.ValueObject" Version="7.1.2" />
   </ItemGroup>
 
   <ItemGroup>
