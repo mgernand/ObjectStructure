@@ -4,7 +4,6 @@
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Reflection;
-	using Fluxera.Utilities.Extensions;
 	using JetBrains.Annotations;
 	using ObjectStructure.Reflection;
 
@@ -39,7 +38,7 @@
 				return Array.Empty<StructureProperty>();
 			}
 
-			IList<StructureProperty> properties = new List<StructureProperty>();
+			List<StructureProperty> properties = new List<StructureProperty>();
 
 			// Get the simple type properties.
 			PropertyInfo[] simplePropertyInfos = this.GetSimplePropertyInfos(initialPropertyInfos);

@@ -1,7 +1,6 @@
 ﻿namespace ObjectStructure
 {
 	using System;
-	using Fluxera.Guards;
 	using JetBrains.Annotations;
 
 	/// <summary>
@@ -19,9 +18,9 @@
 		/// <param name="parent"></param>
 		internal StructurePropertyInfo(string name, Type type, Attribute[] attributes, StructureProperty parent = null)
 		{
-			Guard.Against.NullOrWhiteSpace(name, nameof(name));
-			Guard.Against.Null(type, nameof(type));
-			Guard.Against.Null(attributes, nameof(attributes));
+			ArgumentException.ThrowIfNullOrEmpty(name, nameof(name));
+			ArgumentNullException.ThrowIfNull(type, nameof(type));
+			ArgumentNullException.ThrowIfNull(attributes, nameof(attributes));
 
 			this.Name = name;
 			this.Type = type;
