@@ -4,16 +4,15 @@
 	using System.Linq.Expressions;
 	using System.Reflection;
 	using System.Reflection.Emit;
-	using Fluxera.Guards;
 
 	internal static class DynamicPropertyFactory
 	{
-		private static readonly Type ObjectType = typeof(object);
-		private static readonly Type GetterType = typeof(Func<object, object>);
+		private static readonly Type objectType = typeof(object);
+		private static readonly Type getterType = typeof(Func<object, object>);
 
 		public static DynamicGetter GetterFor(PropertyInfo propertyInfo)
 		{
-			Guard.Against.Null(propertyInfo, nameof(propertyInfo));
+			ArgumentNullException.ThrowIfNull(propertyInfo, nameof(propertyInfo));
 
 			if(propertyInfo.DeclaringType.IsKeyValuePairType())
 			{
@@ -25,11 +24,11 @@
 
 		private static Func<object, object> CreateLambdaGetter(Type type, PropertyInfo property)
 		{
-			ParameterExpression objExpr = Expression.Parameter(ObjectType, "x");
+			ParameterExpression objExpr = Expression.Parameter(objectType, "x");
 			UnaryExpression castObjExpr = Expression.Convert(objExpr, type);
 
 			MemberExpression p = Expression.Property(castObjExpr, property);
-			UnaryExpression castProp = Expression.Convert(p, ObjectType);
+			UnaryExpression castProp = Expression.Convert(p, objectType);
 
 			Expression<Func<object, object>> lambda = Expression.Lambda<Func<object, object>>(castProp, objExpr);
 
@@ -49,7 +48,7 @@
 
 			LocalBuilder x = generator.DeclareLocal(propertyInfo.DeclaringType); //Arg
 			LocalBuilder y = generator.DeclareLocal(propertyInfo.PropertyType); //Prop val
-			LocalBuilder z = generator.DeclareLocal(ObjectType); //Prop val as obj
+			LocalBuilder z = generator.DeclareLocal(objectType); //Prop val as obj
 
 			generator.Emit(OpCodes.Ldarg_0);
 			generator.Emit(OpCodes.Castclass, propertyInfo.DeclaringType);
@@ -70,16 +69,16 @@
 
 			generator.Emit(OpCodes.Ret);
 
-			return (Func<object, object>)getter.CreateDelegate(GetterType);
+			return (Func<object, object>)getter.CreateDelegate(getterType);
 		}
 
 		private static DynamicMethod CreateDynamicGetMethod(MemberInfo memberInfo)
 		{
 			Type declaringType = memberInfo.DeclaringType;
 
-			Type[] args = { ObjectType };
+			Type[] args = { objectType };
 			string name = $"_{declaringType.Name}_Get{memberInfo.Name}_";
-			Type returnType = ObjectType;
+			Type returnType = objectType;
 
 			return !declaringType.IsInterface
 				? new DynamicMethod(name, returnType, args, declaringType, true)

@@ -1,6 +1,6 @@
 ﻿namespace ObjectStructure
 {
-	using Fluxera.Guards;
+	using System;
 
 	internal sealed class StructureIndexValue
 	{
@@ -11,7 +11,7 @@
 		/// <param name="value"></param>
 		internal StructureIndexValue(string path, object value)
 		{
-			Guard.Against.NullOrWhiteSpace(path, nameof(path));
+			ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
 
 			this.Path = path;
 			this.Value = value;

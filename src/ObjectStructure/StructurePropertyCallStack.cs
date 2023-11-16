@@ -2,7 +2,6 @@
 {
 	using System.Collections.Generic;
 	using System.Linq;
-	using Fluxera.Utilities.Extensions;
 
 	internal sealed class StructurePropertyCallStack
 	{
@@ -46,7 +45,7 @@
 				return new StructureProperty[] { structureProperty };
 			}
 
-			IList<StructureProperty> properties = new List<StructureProperty> { structureProperty };
+			List<StructureProperty> properties = new List<StructureProperty> { structureProperty };
 			properties.AddRange(BuildCallStack(structureProperty.Parent));
 
 			return properties;

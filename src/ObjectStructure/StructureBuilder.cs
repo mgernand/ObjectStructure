@@ -1,7 +1,6 @@
 ﻿namespace ObjectStructure
 {
 	using System;
-	using Fluxera.Guards;
 	using JetBrains.Annotations;
 
 	/// <inheritdoc />
@@ -31,10 +30,10 @@
 		/// <inheritdoc />
 		public Structure CreateStructure<T>(T item)
 		{
-			Guard.Against.Null(item, nameof(item));
+			ArgumentNullException.ThrowIfNull(item, nameof(item));
 
 			Type type = typeof(T);
-			if((type == typeof(Type)) || type.IsGenericType || type.IsGenericTypeDefinition)
+			if(type == typeof(Type) || type.IsGenericType || type.IsGenericTypeDefinition)
 			{
 				return null;
 			}
@@ -55,7 +54,7 @@
 		/// <inheritdoc />
 		public Structure CreateStructure(Type type)
 		{
-			if((type == typeof(Type)) || type.IsGenericType || type.IsGenericTypeDefinition)
+			if(type == typeof(Type) || type.IsGenericType || type.IsGenericTypeDefinition)
 			{
 				return null;
 			}

@@ -2,7 +2,6 @@
 {
 	using System;
 	using System.Collections.Generic;
-	using Fluxera.Guards;
 	using JetBrains.Annotations;
 
 	/// <inheritdoc />
@@ -31,7 +30,7 @@
 		/// <inheritdoc />
 		public StructureType CreateType(Type type)
 		{
-			Guard.Against.Null(type, nameof(type));
+			ArgumentNullException.ThrowIfNull(type, nameof(type));
 
 			if(!typeCache.TryGetValue(type, out StructureType structureType))
 			{

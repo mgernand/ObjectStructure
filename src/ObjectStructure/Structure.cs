@@ -1,7 +1,7 @@
 ﻿namespace ObjectStructure
 {
-	using Fluxera.Guards;
 	using JetBrains.Annotations;
+	using System;
 
 	/// <summary>
 	///     The result of the <see cref="IStructureBuilder" /> that contains the <see cref="StructureSchema" />
@@ -12,7 +12,7 @@
 	{
 		internal Structure(StructureSchema schema, StructureIndices indices = null)
 		{
-			Guard.Against.Null(schema, nameof(schema));
+			ArgumentNullException.ThrowIfNull(schema, nameof(schema));
 
 			this.Schema = schema;
 			this.Indices = indices ?? new StructureIndices();

@@ -27,7 +27,7 @@
 			this.IsSimple = this.Type.IsSimpleType();
 			this.IsComplex = !this.Type.IsSimpleType() && !this.Type.IsEnumerableType();
 			this.IsEnumerable = !this.Type.IsSimpleType() && this.Type.IsEnumerableType();
-			this.IsElement = (this.Parent != null) && (this.Parent.IsElement || this.Parent.IsEnumerable);
+			this.IsElement = this.Parent != null && (this.Parent.IsElement || this.Parent.IsEnumerable);
 			this.ElementType = this.IsEnumerable ? this.Type.GetEnumerableElementType() : null;
 			this.Path = BuildPath(this);
 		}

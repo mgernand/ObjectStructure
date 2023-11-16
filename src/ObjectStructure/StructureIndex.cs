@@ -1,8 +1,6 @@
 ﻿namespace ObjectStructure
 {
 	using System;
-	using Fluxera.Guards;
-	using Fluxera.Utilities.Extensions;
 	using JetBrains.Annotations;
 	using ObjectStructure.Reflection;
 
@@ -21,9 +19,9 @@
 		/// <param name="value"></param>
 		internal StructureIndex(string name, string path, Type type, object value)
 		{
-			Guard.Against.NullOrWhiteSpace(name, nameof(name));
-			Guard.Against.NullOrWhiteSpace(path, nameof(path));
-			Guard.Against.Null(type, nameof(type));
+			ArgumentException.ThrowIfNullOrEmpty(name, nameof(name));
+			ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+			ArgumentNullException.ThrowIfNull(type, nameof(type));
 
 			this.Name = name;
 			this.Path = path;

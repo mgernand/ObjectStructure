@@ -4,8 +4,6 @@
 	using System.Collections;
 	using System.Collections.Generic;
 	using System.Linq;
-	using Fluxera.Guards;
-	using Fluxera.Utilities.Extensions;
 	using JetBrains.Annotations;
 
 	/// <summary>
@@ -20,7 +18,7 @@
 
 		internal IndexAccessor(StructureProperty property)
 		{
-			Guard.Against.Null(property, nameof(property));
+			ArgumentNullException.ThrowIfNull(property, nameof(property));
 
 			this.property = property;
 			this.callStack = StructurePropertyCallStack.Create(property);
@@ -85,7 +83,7 @@
 				}
 				else
 				{
-					IList<StructureIndexValue> values = new List<StructureIndexValue>();
+					List<StructureIndexValue> values = new List<StructureIndexValue>();
 					int i = -1;
 					foreach(object node in enumerableNode)
 					{
@@ -114,7 +112,7 @@
 
 		private static IList<StructureIndexValue> ExtractValuesForEnumerableNode(IEnumerable nodes, StructureProperty property, string startPath)
 		{
-			IList<StructureIndexValue> values = nodes is ICollection collection
+			List<StructureIndexValue> values = nodes is ICollection collection
 				? new List<StructureIndexValue>(collection.Count)
 				: new List<StructureIndexValue>();
 

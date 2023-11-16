@@ -2,7 +2,6 @@
 {
 	using System;
 	using System.Text;
-	using Fluxera.Guards;
 	using JetBrains.Annotations;
 
 	/// <summary>
@@ -18,7 +17,7 @@
 		/// <param name="properties"></param>
 		internal StructureType(Type type, StructureProperty[] properties)
 		{
-			Guard.Against.Null(type, nameof(type));
+			ArgumentNullException.ThrowIfNull(type, nameof(type));
 
 			this.Type = type;
 			this.Name = type.Name;

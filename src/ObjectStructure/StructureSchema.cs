@@ -1,7 +1,6 @@
 ﻿namespace ObjectStructure
 {
 	using System;
-	using Fluxera.Guards;
 	using JetBrains.Annotations;
 
 	/// <summary>
@@ -17,7 +16,7 @@
 		/// <param name="indexAccessors"></param>
 		internal StructureSchema(StructureType structureType, IndexAccessor[] indexAccessors)
 		{
-			Guard.Against.Null(structureType, nameof(structureType));
+			ArgumentNullException.ThrowIfNull(structureType, nameof(structureType));
 
 			this.StructureType = structureType;
 			this.IndexAccessors = indexAccessors ?? Array.Empty<IndexAccessor>();
